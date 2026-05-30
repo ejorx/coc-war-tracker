@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadísticas de Guerra - Clan</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #1a1a2e;
+            color: #eee;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        h1 {
+            text-align: center;
+            color: #f5c518;
+            margin-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+        table {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background: #16213e;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        th {
+            background: #0f3460;
+            color: #f5c518;
+            padding: 1rem 0.75rem;
+            text-align: left;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #1a1a2e;
+        }
+        tr:hover td {
+            background: #1a2a4a;
+        }
+        .rank {
+            text-align: center;
+            font-weight: bold;
+            color: #f5c518;
+        }
+        .stars { color: #f5c518; }
+        .avg { color: #4fc3f7; font-weight: bold; }
+        .no-data {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+            font-size: 1.2rem;
+        }
+        .wars-info {
+            max-width: 900px;
+            margin: 2rem auto 0;
+            padding: 1rem;
+            background: #16213e;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #888;
+        }
+        .wars-info strong { color: #ccc; }
+    </style>
+</head>
+<body>
+    <h1>⚔️ Estadísticas de Guerra</h1>
+    <p class="subtitle">Última actualización: {{ updated_at }}</p>
+
+    {% if players %}
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Jugador</th>
+                <th>Guerras</th>
+                <th>⭐ Total</th>
+                <th>Ataques</th>
+                <th>⭐ Promedio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players %}
+            <tr>
+                <td class="rank">{{ loop.index }}</td>
+                <td>{{ player.player_name }}</td>
+                <td>{{ player.wars_played }}</td>
+                <td class="stars">{{ player.total_stars }}</td>
+                <td>{{ player.total_attacks }}</td>
+                <td class="avg">{{ player.avg_stars }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="no-data">
+        No hay datos de guerras registrados todavía.
+    </div>
+    {% endif %}
+
+    {% if recent_wars %}
+    <div class="wars-info">
+        <strong>Últimas guerras registradas:</strong>
+        {{ recent_wars | length }} guerras en la base de datos.
+    </div>
+    {% endif %}
+</body>
+</html>
