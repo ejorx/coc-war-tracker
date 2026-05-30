@@ -18,17 +18,22 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-          cache: 'pip'
+
+      - name: Cache pip packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.local
+          key: pip-${{ hashFiles('requirements.txt') }}
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install --user -r requirements.txt
 
       - name: Run update script
         env:
           COC_EMAIL: ${{ secrets.COC_EMAIL }}
           COC_PASSWORD: ${{ secrets.COC_PASSWORD }}
-          CLAN_TAG: ${{ secrets.CLAN_TAG }}
-        run: echo $COC_EMAIL && echo $COC_PASSWORD && echo $CLAN_TAG # && python update_war_stats.py
+          CLAN_TAGS: ${{ secrets.CLAN_TAGS }}
+        run: echo $COC_EMAIL && echo $COC_PASSWORD && echo $CLAN_TAGS # && python update_war_stats.py
 
       - name: Commit and push changes
         run: |
